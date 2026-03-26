@@ -33,6 +33,11 @@ export default async function NoticiasPage({ searchParams }: PageProps) {
   const fuente = params.fuente;
 
   const data = await getNoticias({ page, limit: 12, sentimiento, impacto, fuente });
+  // Filter out news that only have a title (empty resumen)
+  const filteredData = {
+    ...data,
+    data: data.data.filter((n) => n.resumen && n.resumen.trim().length > 0),
+  };
 
   return (
     <>
@@ -63,12 +68,12 @@ export default async function NoticiasPage({ searchParams }: PageProps) {
               currentSentimiento={sentimiento}
               currentImpacto={impacto}
               currentFuente={fuente}
-              total={data.meta.total}
+              total={filteredData.meta.total}
             />
           </Suspense>
 
           {/* Grid */}
-          {data.data.length === 0 ? (
+          {filteredData.data.length === 0 ? (
             <div className="text-center py-20 text-muted-foreground">
               <Newspaper className="size-12 mx-auto mb-4 opacity-30" />
               <p className="text-lg font-medium">No se encontraron noticias</p>
@@ -76,7 +81,7 @@ export default async function NoticiasPage({ searchParams }: PageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {data.data.map((noticia) => (
+              {filteredData.data.map((noticia) => (
                 <NewsCard key={noticia.id} noticia={noticia} />
               ))}
             </div>
@@ -86,8 +91,8 @@ export default async function NoticiasPage({ searchParams }: PageProps) {
           <div className="pt-4">
             <Suspense>
               <Pagination
-                currentPage={data.meta.page}
-                totalPages={data.meta.totalPages}
+                currentPage={filteredData.meta.page}
+                totalPages={filteredData.meta.totalPages}
               />
             </Suspense>
           </div>

@@ -142,18 +142,6 @@ export default function Hero() {
 
             {/* CTA Button */}
             <div className="flex items-center gap-4">
-              <Link
-                href="/noticias"
-                className={cn(
-                  buttonVariants(),
-                  "rounded-none py-6 pr-0 font-semibold text-background text-lg bg-primary hover:bg-primary/90 border-0"
-                )}
-              >
-                Ver Noticias
-                <span className="border-background/30 border-l p-4 ml-2">
-                  <ArrowRight className="size-5" />
-                </span>
-              </Link>
               <div className="flex items-center gap-2 text-white/50 text-sm">
                 <TrendingUp className="size-4 text-primary" />
                 <span>Actualizado hoy</span>
@@ -163,29 +151,6 @@ export default function Hero() {
 
           {/* Right: descriptor */}
           <div className="w-full sm:w-2/5">
-            <div className="glass-card rounded-xl p-6 space-y-4">
-              <div className="flex items-center gap-2 text-primary text-sm font-semibold uppercase tracking-widest">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                En vivo — Mercado AR
-              </div>
-              <p className="text-base text-white/80 italic sm:text-lg">
-                Inteligencia artificial analiza cada noticia para determinar su
-                impacto en el mercado: <strong className="text-white">FUERTE</strong>,{" "}
-                <strong className="text-white">MODERADO</strong> o{" "}
-                <strong className="text-white">DÉBIL</strong>.
-              </p>
-              <div className="grid grid-cols-3 gap-2 pt-2">
-                <div className="text-center p-2 rounded-lg bg-[oklch(0.65_0.17_155/0.15)] border border-[oklch(0.65_0.17_155/0.3)]">
-                  <span className="block text-[oklch(0.72_0.17_155)] text-xs font-bold uppercase">Positivo</span>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-[oklch(0.65_0.22_27/0.15)] border border-[oklch(0.65_0.22_27/0.3)]">
-                  <span className="block text-[oklch(0.72_0.22_27)] text-xs font-bold uppercase">Negativo</span>
-                </div>
-                <div className="text-center p-2 rounded-lg bg-[oklch(0.78_0.15_75/0.15)] border border-[oklch(0.78_0.15_75/0.3)]">
-                  <span className="block text-[oklch(0.80_0.15_75)] text-xs font-bold uppercase">Neutro</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

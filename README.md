@@ -4,6 +4,8 @@
 
 NotiFinanzas es una plataforma de noticias financieras para Argentina que utiliza **Inteligencia Artificial** para analizar cada noticia, clasificar su impacto en el mercado y determinar el sentimiento económico — todo en tiempo real.
 
+🌐 **Demo en producción:** [https://notifinanzas.sitemaster.com.ar/](https://notifinanzas.sitemaster.com.ar/)
+
 ---
 
 ## ✨ Características
@@ -32,12 +34,21 @@ NotiFinanzas es una plataforma de noticias financieras para Argentina que utiliz
 
 ---
 
+## 🔗 Repositorios
+
+| Repo | Descripción |
+|---|---|
+| [sk8erlucas/notifinanzas](https://github.com/sk8erlucas/notifinanzas) | Frontend — Next.js |
+| [sk8erlucas/api-noticias](https://github.com/sk8erlucas/api-noticias) | Backend — API de noticias con análisis IA |
+
+---
+
 ## 📁 Estructura del proyecto
 
 ```
 src/
 ├── app/
-│   ├── page.tsx              # Home — noticias destacadas + features
+│   ├── page.tsx              # Home — todas las noticias con filtros y paginación
 │   ├── layout.tsx            # Layout global
 │   ├── globals.css           # Estilos globales
 │   ├── noticias/
@@ -48,10 +59,10 @@ src/
 │       └── page.tsx          # Página de funciones próximas
 ├── components/
 │   ├── hero.tsx              # Hero section con marquee y estadísticas
-│   ├── navbar.tsx            # Barra de navegación
+│   ├── navbar.tsx            # Barra de navegación + selector de país
 │   ├── news-card.tsx         # Tarjeta de noticia con badges de IA
 │   ├── filters.tsx           # Filtros por sentimiento, impacto y fuente
-│   ├── country-selector.tsx  # Selector de país/mercado
+│   ├── country-selector.tsx  # Datos de países/mercados
 │   ├── pagination.tsx        # Paginación
 │   └── ui/                   # Componentes base reutilizables
 └── lib/
@@ -88,7 +99,7 @@ Creá un archivo `.env.local` en la raíz del proyecto con la siguiente variable
 API_URL=https://tu-backend-api.com
 ```
 
-> Esta variable apunta al backend que provee y procesa las noticias financieras con IA.
+> Esta variable apunta al backend ([api-noticias](https://github.com/sk8erlucas/api-noticias)) que provee y procesa las noticias financieras con IA.
 
 ### Ejecutar en desarrollo
 
@@ -111,7 +122,7 @@ npm run start
 
 | Ruta | Tipo | Descripción |
 |---|---|---|
-| `/` | Static (ISR 5min) | Home con noticias destacadas y features |
+| `/` | Dynamic (ISR 5min) | Home con todas las noticias, filtros y paginación |
 | `/noticias` | Dynamic (SSR) | Listado completo con filtros y paginación |
 | `/noticias/[id]` | Dynamic (SSR) | Detalle completo de una noticia |
 | `/proximamente` | Static | Página de funciones en desarrollo |
@@ -140,7 +151,28 @@ Cada noticia cuenta con dos análisis generados por inteligencia artificial:
 
 ## 📸 Capturas
 
-> Las capturas estarán disponibles próximamente.
+> _Próximamente — las capturas se agregarán aquí._
+
+<!-- Screenshot 1: Home con listado de noticias y filtros -->
+<!-- ![Home - Noticias con filtros](public/screenshots/home.png) -->
+
+<!-- Screenshot 2: Navbar con selector de país desplegado -->
+<!-- ![Navbar con selector de país](public/screenshots/navbar-country.png) -->
+
+<!-- Screenshot 3: Detalle de una noticia -->
+<!-- ![Detalle de noticia](public/screenshots/noticia-detalle.png) -->
+
+<!-- Screenshot 4: Filtros en acción -->
+<!-- ![Filtros activos](public/screenshots/filtros.png) -->
+
+---
+
+## ☁️ Despliegue
+
+El proyecto fue desplegado en producción utilizando **[CubePath](https://cubepath.com/)** como proveedor de infraestructura cloud, con **[Dokploy](https://dokploy.com/)** como plataforma de despliegue continuo.
+
+- 🌐 **Frontend:** [https://notifinanzas.sitemaster.com.ar/](https://notifinanzas.sitemaster.com.ar/)
+- 🔧 **Backend API:** [https://github.com/sk8erlucas/api-noticias](https://github.com/sk8erlucas/api-noticias)
 
 ---
 

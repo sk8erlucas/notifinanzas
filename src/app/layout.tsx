@@ -17,6 +17,9 @@ export const metadata: Metadata = {
     default: "Notifinanzas — El pulso del mercado argentino",
     template: "%s · Notifinanzas",
   },
+  icons: {
+    icon: "/favicon.svg",
+  },
   description:
     "Plataforma de noticias financieras del mercado argentino con análisis de impacto y sentimiento mediante inteligencia artificial.",
   keywords: ["finanzas", "Argentina", "mercado", "noticias", "economía", "inversiones"],

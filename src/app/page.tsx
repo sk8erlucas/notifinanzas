@@ -1,137 +1,109 @@
-import Link from "next/link";
-import { ArrowRight, TrendingUp, Zap, Brain } from "lucide-react";
-import { buttonVariants } from "@/lib/button-variants";
-import { cn } from "@/lib/utils";
+import { Suspense } from "react";
+import { TrendingUp, Newspaper } from "lucide-react";
 import Hero from "@/components/hero";
 import Navbar from "@/components/navbar";
-import { CountrySelector } from "@/components/country-selector";
 import { NewsCard } from "@/components/news-card";
+import { FilterBar, FilterBarSkeleton } from "@/components/filters";
+import { Pagination } from "@/components/pagination";
 import { getNoticias } from "@/lib/api";
 
 export const revalidate = 300;
 
-async function FeaturedNews() {
+interface PageProps {
+  searchParams: Promise<{
+    page?: string;
+    sentimiento?: string;
+    impacto?: string;
+    fuente?: string;
+  }>;
+}
+
+
+export default async function Home({ searchParams }: PageProps) {
+  const params = await searchParams;
+  const page = Math.max(1, parseInt(params.page ?? "1", 10));
+  const sentimiento = params.sentimiento;
+  const impacto = params.impacto;
+  const fuente = params.fuente;
+
+  let data;
   try {
-    const data = await getNoticias({ limit: 6, page: 1 });
-    if (data.data.length === 0) return null;
-
-    return (
-      <section className="py-16 px-4 sm:px-8 lg:px-16 border-b border-border">
-        <div className="max-w-7xl mx-auto space-y-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2 text-primary text-sm font-semibold mb-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Argentina 🇦🇷
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
-                Últimas noticias
-              </h2>
-            </div>
-            <Link
-              href="/noticias"
-              className={cn(buttonVariants({ variant: "ghost" }), "gap-2 text-muted-foreground hidden sm:flex")}
-            >
-              Ver todas
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {data.data.map((noticia) => (
-              <NewsCard key={noticia.id} noticia={noticia} />
-            ))}
-          </div>
-
-          <div className="sm:hidden text-center">
-            <Link href="/noticias" className={cn(buttonVariants({ variant: "outline" }), "gap-2")}>
-              Ver todas las noticias
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-    );
+    const raw = await getNoticias({ page, limit: 12, sentimiento, impacto, fuente });
+    // Filter out news that only have a title (empty resumen)
+    const filtered = raw.data.filter((n) => n.resumen && n.resumen.trim().length > 0);
+    data = { ...raw, data: filtered };
   } catch {
-    return null;
+    data = null;
   }
-}
 
-function FeaturesBanner() {
-  const features = [
-    {
-      icon: Brain,
-      title: "Análisis con IA",
-      desc: "Cada noticia es procesada por IA para extraer impacto y sentimiento del mercado.",
-    },
-    {
-      icon: Zap,
-      title: "Impacto en tiempo real",
-      desc: "Clasificación automática: FUERTE, MODERADO o DÉBIL según el contexto económico.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Sentimiento del mercado",
-      desc: "POSITIVO, NEGATIVO o NEUTRO: entendé rápido cómo afecta cada novedad.",
-    },
-  ];
-
-  return (
-    <section className="py-16 px-4 sm:px-8 lg:px-16 bg-card/30 border-b border-border">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {features.map((feat) => {
-            const Icon = feat.icon;
-            return (
-              <div
-                key={feat.title}
-                className="flex gap-4 p-5 rounded-xl border border-border bg-card hover:border-primary/30 transition-colors"
-              >
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                  <Icon className="size-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-foreground text-sm mb-1">{feat.title}</h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed">{feat.desc}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-export default function Home() {
   return (
     <>
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <FeaturesBanner />
-        <FeaturedNews />
-        <CountrySelector />
 
-        {/* Footer CTA */}
-        <section className="py-20 px-4 text-center border-t border-border brand-gradient">
-          <div className="max-w-2xl mx-auto space-y-6">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground">
-              Siempre informado,{" "}
-              <span className="text-primary">siempre adelante</span>
-            </h2>
-            <p className="text-muted-foreground">
-              El pulso del mercado argentino, procesado con inteligencia artificial, disponible las 24 horas.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/noticias" className={cn(buttonVariants({ size: "lg" }), "gap-2")}>
-                Explorar noticias
-                <ArrowRight className="size-4" />
-              </Link>
-              <Link href="/proximamente" className={buttonVariants({ variant: "outline", size: "lg" })}>
-                Registrarse gratis
-              </Link>
+        {/* News section */}
+        <section className="py-12 px-4 sm:px-8 lg:px-16 border-b border-border">
+          <div className="max-w-7xl mx-auto space-y-8">
+            {/* Section header */}
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                <Newspaper className="size-4 text-primary" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2 text-primary text-xs font-semibold mb-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  Argentina 🇦🇷
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground leading-tight">
+                  Noticias financieras
+                </h2>
+              </div>
             </div>
+
+            {data ? (
+              <>
+                {/* Filters */}
+                <Suspense fallback={<FilterBarSkeleton />}>
+                  <FilterBar
+                    currentSentimiento={sentimiento}
+                    currentImpacto={impacto}
+                    currentFuente={fuente}
+                    total={data.meta.total}
+                  />
+                </Suspense>
+
+                {/* Grid */}
+                {data.data.length === 0 ? (
+                  <div className="text-center py-20 text-muted-foreground">
+                    <Newspaper className="size-12 mx-auto mb-4 opacity-30" />
+                    <p className="text-lg font-medium">No se encontraron noticias</p>
+                    <p className="text-sm mt-1">Intentá cambiar los filtros</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {data.data.map((noticia) => (
+                      <NewsCard key={noticia.id} noticia={noticia} />
+                    ))}
+                  </div>
+                )}
+
+                {/* Pagination */}
+                <div className="pt-4">
+                  <Suspense>
+                    <Pagination
+                      currentPage={data.meta.page}
+                      totalPages={data.meta.totalPages}
+                    />
+                  </Suspense>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-20 text-muted-foreground">
+                <Newspaper className="size-12 mx-auto mb-4 opacity-30" />
+                <p className="text-lg font-medium">No se pudieron cargar las noticias</p>
+              </div>
+            )}
           </div>
         </section>
 
@@ -148,20 +120,11 @@ export default function Home() {
               </span>
               <span className="hidden sm:inline">— El pulso del mercado argentino</span>
             </div>
-            <div className="flex items-center gap-4">
-              <Link href="/noticias" className="hover:text-foreground transition-colors">
-                Noticias
-              </Link>
-              <Link href="/proximamente" className="hover:text-foreground transition-colors">
-                Próximamente
-              </Link>
-              <span>© 2026</span>
-            </div>
+            <span>© 2026 NotiFinanzas</span>
           </div>
         </footer>
       </main>
     </>
   );
 }
-
 
