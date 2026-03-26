@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, TrendingUp, LogIn, UserPlus, ChevronDown, Lock } from "lucide-react";
 import { buttonVariants } from "@/lib/button-variants";
@@ -15,21 +16,20 @@ const navLinks = [
 interface Country {
   code: string;
   name: string;
-  flag: string;
   active: boolean;
   href: string;
 }
 
 const countries: Country[] = [
-  { code: "AR", name: "Argentina", flag: "🇦🇷", active: true, href: "/" },
-  { code: "BR", name: "Brasil", flag: "🇧🇷", active: false, href: "/proximamente" },
-  { code: "CL", name: "Chile", flag: "🇨🇱", active: false, href: "/proximamente" },
-  { code: "MX", name: "México", flag: "🇲🇽", active: false, href: "/proximamente" },
-  { code: "CO", name: "Colombia", flag: "🇨🇴", active: false, href: "/proximamente" },
-  { code: "US", name: "Estados Unidos", flag: "🇺🇸", active: false, href: "/proximamente" },
-  { code: "PE", name: "Perú", flag: "🇵🇪", active: false, href: "/proximamente" },
-  { code: "UY", name: "Uruguay", flag: "🇺🇾", active: false, href: "/proximamente" },
-  { code: "ES", name: "España", flag: "🇪🇸", active: false, href: "/proximamente" },
+  { code: "ar", name: "Argentina", active: true, href: "/" },
+  { code: "br", name: "Brasil", active: false, href: "/proximamente" },
+  { code: "cl", name: "Chile", active: false, href: "/proximamente" },
+  { code: "mx", name: "México", active: false, href: "/proximamente" },
+  { code: "co", name: "Colombia", active: false, href: "/proximamente" },
+  { code: "us", name: "Estados Unidos", active: false, href: "/proximamente" },
+  { code: "pe", name: "Perú", active: false, href: "/proximamente" },
+  { code: "uy", name: "Uruguay", active: false, href: "/proximamente" },
+  { code: "es", name: "España", active: false, href: "/proximamente" },
 ];
 
 function CountryDropdown() {
@@ -52,7 +52,7 @@ function CountryDropdown() {
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
       >
-        <span>🇦🇷</span>
+        <Image src="/flags/ar.svg" alt="Argentina" width={20} height={14} className="rounded-sm" unoptimized />
         <span>Argentina</span>
         <ChevronDown className={cn("size-3.5 transition-transform", open && "rotate-180")} />
       </button>
@@ -69,7 +69,7 @@ function CountryDropdown() {
                 country.active ? "text-foreground" : "text-muted-foreground"
               )}
             >
-              <span className="text-base">{country.flag}</span>
+              <Image src={`/flags/${country.code}.svg`} alt={country.name} width={22} height={16} className="rounded-sm shrink-0" unoptimized />
               <span className="flex-1">{country.name}</span>
               {country.active ? (
                 <span className="flex items-center gap-1 text-xs text-primary font-medium">
@@ -107,20 +107,6 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={`${link.href}-${link.label}`}
-              href={link.href}
-              className={cn(
-                "text-sm font-medium transition-colors hover:text-primary",
-                pathname === link.href
-                  ? "text-primary"
-                  : "text-muted-foreground"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
         </nav>
 
         {/* Desktop auth actions */}
@@ -157,21 +143,6 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden border-t border-white/8 bg-background/95 backdrop-blur-md">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={`mobile-${link.href}-${link.label}`}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "py-2 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-accent hover:text-foreground",
-                  pathname === link.href
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground"
-                )}
-              >
-                {link.label}
-              </Link>
-            ))}
             <div className="border-t border-white/8 mt-2 pt-3 flex flex-col gap-2">
               <Link
                 href="/proximamente"

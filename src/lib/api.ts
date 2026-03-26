@@ -50,23 +50,48 @@ export async function getNoticias(
   if (params.impacto) url.searchParams.set("impacto", params.impacto);
   if (params.fuente) url.searchParams.set("fuente", params.fuente);
 
-  const res = await fetch(url.toString(), {
-    next: { revalidate: 300 }, // cache 5 min
-  });
+  console.log("[getNoticias] Fetching:", url.toString());
+
+  let res: Response;
+  try {
+    res = await fetch(url.toString(), {
+      next: { revalidate: 300 }, // cache 5 min
+    });
+  } catch (err) {
+    console.error("[getNoticias] Network error:", err);
+    throw err;
+  }
+
+  console.log("[getNoticias] Response status:", res.status, res.statusText);
 
   if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    console.error("[getNoticias] Error body:", body);
     throw new Error(`Error fetching noticias: ${res.status}`);
   }
 
-  return res.json();
+  const json = await res.json();
+  console.log("[getNoticias] Total noticias recibidas:", json?.meta?.total, "| En esta página:", json?.data?.length);
+  return json;
 }
 
 export async function getNoticia(id: number): Promise<Noticia> {
-  const res = await fetch(`${API_URL}/api/noticias/${id}`, {
-    next: { revalidate: 3600 },
-  });
+  const url = `${API_URL}/api/noticias/${id}`;
+  console.log("[getNoticia] Fetching:", url);
+
+  let res: Response;
+  try {
+    res = await fetch(url, { next: { revalidate: 3600 } });
+  } catch (err) {
+    console.error("[getNoticia] Network error:", err);
+    throw err;
+  }
+
+  console.log("[getNoticia] Response status:", res.status, res.statusText);
 
   if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    console.error("[getNoticia] Error body:", body);
     throw new Error(`Error fetching noticia ${id}: ${res.status}`);
   }
 
