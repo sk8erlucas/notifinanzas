@@ -1,24 +1,24 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Country {
   code: string;
   name: string;
-  flag: string;
   active: boolean;
   href: string;
 }
 
 const countries: Country[] = [
-  { code: "AR", name: "Argentina", flag: "🇦🇷", active: true, href: "/noticias" },
-  { code: "BR", name: "Brasil", flag: "🇧🇷", active: false, href: "/proximamente" },
-  { code: "CL", name: "Chile", flag: "🇨🇱", active: false, href: "/proximamente" },
-  { code: "MX", name: "México", flag: "🇲🇽", active: false, href: "/proximamente" },
-  { code: "CO", name: "Colombia", flag: "🇨🇴", active: false, href: "/proximamente" },
-  { code: "US", name: "Estados Unidos", flag: "🇺🇸", active: false, href: "/proximamente" },
-  { code: "PE", name: "Perú", flag: "🇵🇪", active: false, href: "/proximamente" },
-  { code: "UY", name: "Uruguay", flag: "🇺🇾", active: false, href: "/proximamente" },
+  { code: "ar", name: "Argentina", active: true, href: "/noticias" },
+  { code: "br", name: "Brasil", active: false, href: "/proximamente" },
+  { code: "cl", name: "Chile", active: false, href: "/proximamente" },
+  { code: "mx", name: "México", active: false, href: "/proximamente" },
+  { code: "co", name: "Colombia", active: false, href: "/proximamente" },
+  { code: "us", name: "Estados Unidos", active: false, href: "/proximamente" },
+  { code: "pe", name: "Perú", active: false, href: "/proximamente" },
+  { code: "uy", name: "Uruguay", active: false, href: "/proximamente" },
 ];
 
 export function CountrySelector() {
@@ -47,7 +47,15 @@ export function CountrySelector() {
               )}
             >
               {/* Flag */}
-              <span className="text-4xl">{country.flag}</span>
+              <div className="w-16 h-10 rounded overflow-hidden shadow-sm border border-border/30">
+                <Image
+                  src={`/flags/${country.code}.svg`}
+                  alt={`Bandera de ${country.name}`}
+                  width={64}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
+              </div>
 
               {/* Name */}
               <span
