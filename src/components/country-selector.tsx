@@ -12,6 +12,7 @@ interface Country {
 
 const countries: Country[] = [
   { code: "ar", name: "Argentina", active: true, href: "/noticias" },
+  { code: "es", name: "España", active: true, href: "/espana" },
   { code: "br", name: "Brasil", active: false, href: "/proximamente" },
   { code: "cl", name: "Chile", active: false, href: "/proximamente" },
   { code: "mx", name: "México", active: false, href: "/proximamente" },

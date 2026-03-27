@@ -14,7 +14,7 @@ NotiFinanzas es una plataforma de noticias financieras para Argentina que utiliz
 - ⚡ **Impacto en tiempo real** — Clasificación automática en tres niveles: `FUERTE`, `MODERADO` o `DÉBIL`.
 - 📈 **Sentimiento del mercado** — Indicador claro: `POSITIVO`, `NEGATIVO` o `NEUTRO`.
 - 🔍 **Filtros avanzados** — Filtrá por sentimiento, nivel de impacto y fuente informativa.
-- 🇦🇷 **Foco en Argentina** — Noticias 100% orientadas al mercado financiero argentino.
+- � **Multi-mercado** — Cobertura de Argentina y España, con más países en camino.
 - 🔄 **Actualización continua** — Cache de 5 minutos con revalidación automática (ISR).
 - 📱 **Diseño responsive** — Experiencia óptima en móvil, tablet y escritorio.
 
@@ -123,9 +123,10 @@ npm run start
 | Ruta | Tipo | Descripción |
 |---|---|---|
 | `/` | Dynamic (ISR 5min) | Home con todas las noticias, filtros y paginación |
-| `/noticias` | Dynamic (SSR) | Listado completo con filtros y paginación |
+| `/noticias` | Dynamic (SSR) | Listado completo con filtros y paginación — Argentina |
 | `/noticias/[id]` | Dynamic (SSR) | Detalle completo de una noticia |
-| `/proximamente` | Static | Página de funciones en desarrollo |
+| `/espana` | Dynamic (SSR) | Listado completo con filtros y paginación — España |
+| `/proximamente` | Static | Página de mercados próximos |
 
 ---
 
@@ -151,19 +152,27 @@ Cada noticia cuenta con dos análisis generados por inteligencia artificial:
 
 ## 📸 Capturas
 
-> _Próximamente — las capturas se agregarán aquí._
+### Hero — Argentina
+![Header NotiFinanzas Argentina](https://notifinanzas.sitemaster.com.ar/screenshots/header_arg.png)
 
-<!-- Screenshot 1: Home con listado de noticias y filtros -->
-<!-- ![Home - Noticias con filtros](public/screenshots/home.png) -->
+### Listado de noticias — Argentina
+![Noticias financieras Argentina](https://notifinanzas.sitemaster.com.ar/screenshots/noticias_arg.png)
 
-<!-- Screenshot 2: Navbar con selector de país desplegado -->
-<!-- ![Navbar con selector de país](public/screenshots/navbar-country.png) -->
+---
 
-<!-- Screenshot 3: Detalle de una noticia -->
-<!-- ![Detalle de noticia](public/screenshots/noticia-detalle.png) -->
+## 🌍 Mercados disponibles
 
-<!-- Screenshot 4: Filtros en acción -->
-<!-- ![Filtros activos](public/screenshots/filtros.png) -->
+| País | Estado | Ruta |
+|---|---|---|
+| 🇦🇷 Argentina | ✅ Activo | `/noticias` |
+| 🇪🇸 España | ✅ Activo | `/espana` |
+| 🇧🇷 Brasil | 🔜 Próximamente | — |
+| 🇨🇱 Chile | 🔜 Próximamente | — |
+| 🇲🇽 México | 🔜 Próximamente | — |
+| 🇨🇴 Colombia | 🔜 Próximamente | — |
+| 🇺🇸 Estados Unidos | 🔜 Próximamente | — |
+| 🇵🇪 Perú | 🔜 Próximamente | — |
+| 🇺🇾 Uruguay | 🔜 Próximamente | — |
 
 ---
 
