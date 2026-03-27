@@ -14,6 +14,7 @@ export interface Noticia {
   razonImpacto: string;
   razonSentimiento: string;
   fuente: string;
+  pais: string;
   publicadoEn: string;
   procesadoEn: string;
   createdAt: string;
@@ -38,6 +39,7 @@ export interface NoticiasParams {
   sentimiento?: string;
   impacto?: string;
   fuente?: string;
+  pais?: string;
 }
 
 export async function getNoticias(
@@ -49,6 +51,7 @@ export async function getNoticias(
   if (params.sentimiento) url.searchParams.set("sentimiento", params.sentimiento);
   if (params.impacto) url.searchParams.set("impacto", params.impacto);
   if (params.fuente) url.searchParams.set("fuente", params.fuente);
+  if (params.pais) url.searchParams.set("pais", params.pais);
 
   console.log("[getNoticias] Fetching:", url.toString());
 

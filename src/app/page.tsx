@@ -28,7 +28,7 @@ export default async function Home({ searchParams }: PageProps) {
 
   let data;
   try {
-    const raw = await getNoticias({ page, limit: 12, sentimiento, impacto, fuente });
+    const raw = await getNoticias({ page, limit: 12, sentimiento, impacto, fuente, pais: "AR" });
     // Filter out news that only have a title (empty resumen)
     const filtered = raw.data.filter((n) => n.resumen && n.resumen.trim().length > 0);
     data = { ...raw, data: filtered };

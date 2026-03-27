@@ -8,11 +8,6 @@ import { Menu, X, TrendingUp, LogIn, UserPlus, ChevronDown, Lock } from "lucide-
 import { buttonVariants } from "@/lib/button-variants";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { href: "/noticias", label: "Noticias" },
-  { href: "/proximamente", label: "Análisis IA" },
-];
-
 interface Country {
   code: string;
   name: string;
@@ -29,12 +24,16 @@ const countries: Country[] = [
   { code: "us", name: "Estados Unidos", active: false, href: "/proximamente" },
   { code: "pe", name: "Perú", active: false, href: "/proximamente" },
   { code: "uy", name: "Uruguay", active: false, href: "/proximamente" },
-  { code: "es", name: "España", active: false, href: "/proximamente" },
+  { code: "es", name: "España", active: true, href: "/espana" },
 ];
 
 function CountryDropdown() {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  const activeCountry = countries.find((c) => c.active && c.href === pathname)
+    ?? countries.find((c) => c.code === "ar")!;
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -52,8 +51,8 @@ function CountryDropdown() {
         onClick={() => setOpen((v) => !v)}
         className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
       >
-        <Image src="/flags/ar.svg" alt="Argentina" width={20} height={14} className="rounded-sm" unoptimized />
-        <span>Argentina</span>
+        <Image src={`/flags/${activeCountry.code}.svg`} alt={activeCountry.name} width={20} height={14} className="rounded-sm" unoptimized />
+        <span>{activeCountry.name}</span>
         <ChevronDown className={cn("size-3.5 transition-transform", open && "rotate-180")} />
       </button>
 
@@ -89,7 +88,6 @@ function CountryDropdown() {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const pathname = usePathname();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/8 bg-background/80 backdrop-blur-md">

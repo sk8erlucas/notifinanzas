@@ -32,7 +32,7 @@ export default async function NoticiasPage({ searchParams }: PageProps) {
   const impacto = params.impacto;
   const fuente = params.fuente;
 
-  const data = await getNoticias({ page, limit: 12, sentimiento, impacto, fuente });
+  const data = await getNoticias({ page, limit: 12, sentimiento, impacto, fuente, pais: "AR" });
   // Filter out news that only have a title (empty resumen)
   const filteredData = {
     ...data,
